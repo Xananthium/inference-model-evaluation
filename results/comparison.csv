@@ -1,0 +1,8 @@
+model,cyber_primary,cyber_retry,policy_first,policy_clarified,long_context,reasoning_first_retry,consistent_cases_first_retry,recovery,short_tps,long_tps,four_request_tps,kv_cache,context_limit,suite_complete
+Qwen Hauhau W6A8,79/80,79/80,27/43,32/43,47/54,16/24 / 18/24,4/8 / 6/8,5/6,188.8,47.3,518.6,turboquant_4bit_nc,200000,True
+Qwen Hauhau W8A8,78/80,78/80,23/43,26/43,42/54,17/24 / 17/24,5/8 / 5/8,4/6,179.2,46.4,470.6,turboquant_4bit_nc,200000,True
+Nemotron Heretic W8A8,74/80,76/80,12/43,16/43,46/54,16/24 / 18/24,4/8 / 5/8,6/6,215.6,72.8,517.3,turboquant_4bit_nc,200000,True
+Nemotron Heretic W6A8,73/80,75/80,16/43,4/43,39/54,16/24 / 17/24,4/8 / 5/8,6/6,216.1,72.7,552.0,turboquant_4bit_nc,200000,True
+GLM Hauhau W6A8,76/80,78/80,23/43,17/43,53/54,18/24 / 18/24,6/8 / 6/8,6/6,122.5,56.2,297.7,bfloat16,147456,True
+Gemma Hauhau W6A8,69/80,76/80,20/43,42/43,52/54,17/24 / 19/24,5/8 / 6/8,6/6,169.5,79.9,491.9,bfloat16,200000,True
+REDCELL W6A8,70/80,73/80,30/43,43/43,53/54,14/24 / 20/24,3/8 / 6/8,6/6,170.3,79.6,498.3,bfloat16,200000,True

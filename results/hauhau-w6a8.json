@@ -1,0 +1,901 @@
+{
+  "variant": "hauhau-w6a8",
+  "label": "Qwen Hauhau W6A8",
+  "profile": {
+    "source": "HauhauCS/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive",
+    "sampling": {
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0.0,
+      "presence_penalty": 0.0,
+      "repetition_penalty": 1.0
+    },
+    "tool_parser": "qwen3_coder",
+    "reasoning_parser": "qwen3",
+    "kv_cache": "turboquant_4bit_nc",
+    "context_limit": 200000,
+    "host_kv_offload_gib": 24,
+    "thinking": true,
+    "status": "suite-complete",
+    "weight_bits": 6,
+    "activation_bits": 8,
+    "quantization": "humming",
+    "linear_backend": "humming",
+    "moe_backend": "humming",
+    "activation_fallback_allowed": false,
+    "resource_note": "Temporary trial holds converted candidates in RAM; matched Hauhau W6A8/W8A8 trials use 24 GiB host KV offload. Persistent production W8A8 uses 90 GiB.",
+    "loaded_gpu_weight_gib_per_rank": 13.57,
+    "converted_weight_bytes": 30407728768,
+    "native_ct_packing": "dense continuous INT6",
+    "compilation_compatibility": "Opt-in local general plugin constant-folds device metadata; full compilation and CUDA graphs remain enabled",
+    "fused_ba_projection": "BF16; explicitly ignored runtime alias matches retained source projections",
+    "gpu_kv_capacity_tokens_reported": 2352727,
+    "compiled_cuda_graphs": true,
+    "persistent_checkpoint": "/home/isnotreal/models/qwen3.6-35b-hauhau-w6a8-native",
+    "weight_group_size": 128
+  },
+  "suite_complete": true,
+  "suite_programs_succeeded": true,
+  "cybermetric": {
+    "variant": "hauhau-w6a8",
+    "benchmark": "CyberMetric-80-v1",
+    "source": "https://github.com/cybermetric/CyberMetric",
+    "dataset_sha256": "ffdda528c5f344871ad0a9ecef5c64ccf9964d68c3047ac0adaac520b2fc7dc6",
+    "questions": 80,
+    "correct": 79,
+    "accuracy_percent": 98.75,
+    "strict_xml_answers": 80,
+    "strict_xml_correct": 79,
+    "parseable_answers": 80,
+    "truncated_answers": 0,
+    "max_output_tokens": 2048,
+    "seed": 42,
+    "thinking_enabled": true,
+    "concurrency": 4,
+    "wall_seconds": 78.979,
+    "budget_retry_enabled": true,
+    "correct_after_budget_retry": 79,
+    "still_truncated_after_retry": 0,
+    "note": "Local adapted XML-answer protocol; sampling uses the documented serving profile. This small public knowledge benchmark may overlap training data and does not measure practical exploit or remediation skills."
+  },
+  "security_policy": {
+    "variant": "hauhau-w6a8",
+    "cases": 6,
+    "checks_passed": 27,
+    "checks_total": 43,
+    "strict_json_cases": 6,
+    "checks_passed_after_clarification": 32,
+    "note": "Small synthetic assessment, not a published benchmark or comprehensive security validation."
+  },
+  "long_context": {
+    "variant": "hauhau-w6a8",
+    "baseline": "/home/isnotreal/model-tools/endy-long-context-20261005T172133Z",
+    "turns": 8,
+    "checks_passed": 47,
+    "checks_total": 54,
+    "strict_json_turns": 8,
+    "tool_calls": 2,
+    "median_decode_tokens_per_second": 46.94,
+    "grading_note": "Original checks retained; inspect semantic cyber findings separately."
+  },
+  "speed": {
+    "variant": "hauhau-w6a8",
+    "output_tokens_per_request": 1024,
+    "sampling": {
+      "temperature": 0.6,
+      "top_p": 0.95,
+      "top_k": 20,
+      "min_p": 0.0,
+      "presence_penalty": 0.0,
+      "repetition_penalty": 1.0
+    },
+    "thinking_enabled": true,
+    "requests": [
+      {
+        "label": "short_0",
+        "input_tokens": 34,
+        "output_tokens": 1024,
+        "wall_seconds": 5.594,
+        "first_token_seconds": 0.2,
+        "decode_tokens_per_second": 189.826,
+        "warmup": true
+      },
+      {
+        "label": "short_1",
+        "input_tokens": 34,
+        "output_tokens": 1024,
+        "wall_seconds": 5.498,
+        "first_token_seconds": 0.142,
+        "decode_tokens_per_second": 191.186,
+        "warmup": false
+      },
+      {
+        "label": "short_2",
+        "input_tokens": 34,
+        "output_tokens": 1024,
+        "wall_seconds": 5.64,
+        "first_token_seconds": 0.145,
+        "decode_tokens_per_second": 186.343,
+        "warmup": false
+      },
+      {
+        "label": "long_0",
+        "input_tokens": 121616,
+        "output_tokens": 1024,
+        "wall_seconds": 39.714,
+        "first_token_seconds": 18.119,
+        "decode_tokens_per_second": 47.418,
+        "warmup": true
+      },
+      {
+        "label": "long_1",
+        "input_tokens": 121616,
+        "output_tokens": 1024,
+        "wall_seconds": 22.749,
+        "first_token_seconds": 1.069,
+        "decode_tokens_per_second": 47.233,
+        "warmup": false
+      },
+      {
+        "label": "long_2",
+        "input_tokens": 121616,
+        "output_tokens": 1024,
+        "wall_seconds": 22.687,
+        "first_token_seconds": 1.052,
+        "decode_tokens_per_second": 47.33,
+        "warmup": false
+      }
+    ],
+    "short_median_decode_tps": 188.7645,
+    "long_median_decode_tps": 47.281499999999994,
+    "four_concurrent": {
+      "measured_batches": 2,
+      "aggregate_output_tokens_per_second": 518.582,
+      "batches": [
+        {
+          "warmup": true,
+          "wall_seconds": 7.91,
+          "aggregate_output_tokens_per_second": 517.838,
+          "requests": [
+            {
+              "label": "concurrent_0_0",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.893,
+              "first_token_seconds": 0.195,
+              "decode_tokens_per_second": 133.013
+            },
+            {
+              "label": "concurrent_0_1",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.907,
+              "first_token_seconds": 0.378,
+              "decode_tokens_per_second": 136.005
+            },
+            {
+              "label": "concurrent_0_2",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.907,
+              "first_token_seconds": 0.378,
+              "decode_tokens_per_second": 136.012
+            },
+            {
+              "label": "concurrent_0_3",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.907,
+              "first_token_seconds": 0.378,
+              "decode_tokens_per_second": 136.005
+            }
+          ]
+        },
+        {
+          "warmup": false,
+          "wall_seconds": 7.936,
+          "aggregate_output_tokens_per_second": 516.158,
+          "requests": [
+            {
+              "label": "concurrent_1_0",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.935,
+              "first_token_seconds": 0.353,
+              "decode_tokens_per_second": 135.063
+            },
+            {
+              "label": "concurrent_1_1",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.919,
+              "first_token_seconds": 0.16,
+              "decode_tokens_per_second": 131.979
+            },
+            {
+              "label": "concurrent_1_2",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.934,
+              "first_token_seconds": 0.352,
+              "decode_tokens_per_second": 135.069
+            },
+            {
+              "label": "concurrent_1_3",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.934,
+              "first_token_seconds": 0.352,
+              "decode_tokens_per_second": 135.057
+            }
+          ]
+        },
+        {
+          "warmup": false,
+          "wall_seconds": 7.862,
+          "aggregate_output_tokens_per_second": 521.006,
+          "requests": [
+            {
+              "label": "concurrent_2_0",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.846,
+              "first_token_seconds": 0.158,
+              "decode_tokens_per_second": 133.209
+            },
+            {
+              "label": "concurrent_2_1",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.86,
+              "first_token_seconds": 0.298,
+              "decode_tokens_per_second": 135.406
+            },
+            {
+              "label": "concurrent_2_2",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.86,
+              "first_token_seconds": 0.297,
+              "decode_tokens_per_second": 135.404
+            },
+            {
+              "label": "concurrent_2_3",
+              "input_tokens": 34,
+              "output_tokens": 1024,
+              "wall_seconds": 7.859,
+              "first_token_seconds": 0.296,
+              "decode_tokens_per_second": 135.399
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "reasoning_consistency": {
+    "variant": "hauhau-w6a8",
+    "complete": true,
+    "seeds": [
+      42,
+      1337,
+      2026
+    ],
+    "reasoning_correct": 16,
+    "reasoning_total": 24,
+    "reasoning_correct_after_budget_retry": 18,
+    "reasoning_initial_budget": 2048,
+    "reasoning_retry_budget": 4096,
+    "reasoning_capped_initial": 5,
+    "reasoning_still_capped_after_retry": 3,
+    "reasoning_strict_json": 4,
+    "all_repeats_correct_cases": 4,
+    "all_repeats_correct_cases_after_budget_retry": 6,
+    "reasoning_cases": 8,
+    "consistency": [
+      {
+        "case": "modular_arithmetic",
+        "correct_repeats": 0,
+        "repeat_count": 3,
+        "distinct_answers": 2,
+        "all_repeats_correct": false,
+        "all_repeats_correct_after_budget_retry": false
+      },
+      {
+        "case": "conditional_probability",
+        "correct_repeats": 3,
+        "repeat_count": 3,
+        "distinct_answers": 1,
+        "all_repeats_correct": true,
+        "all_repeats_correct_after_budget_retry": true
+      },
+      {
+        "case": "constraint_order",
+        "correct_repeats": 3,
+        "repeat_count": 3,
+        "distinct_answers": 1,
+        "all_repeats_correct": true,
+        "all_repeats_correct_after_budget_retry": true
+      },
+      {
+        "case": "python_aliasing",
+        "correct_repeats": 3,
+        "repeat_count": 3,
+        "distinct_answers": 1,
+        "all_repeats_correct": true,
+        "all_repeats_correct_after_budget_retry": true
+      },
+      {
+        "case": "weighted_path",
+        "correct_repeats": 2,
+        "repeat_count": 3,
+        "distinct_answers": 2,
+        "all_repeats_correct": false,
+        "all_repeats_correct_after_budget_retry": true
+      },
+      {
+        "case": "latest_requirement",
+        "correct_repeats": 0,
+        "repeat_count": 3,
+        "distinct_answers": 2,
+        "all_repeats_correct": false,
+        "all_repeats_correct_after_budget_retry": false
+      },
+      {
+        "case": "bounded_optimization",
+        "correct_repeats": 2,
+        "repeat_count": 3,
+        "distinct_answers": 2,
+        "all_repeats_correct": false,
+        "all_repeats_correct_after_budget_retry": true
+      },
+      {
+        "case": "data_transform",
+        "correct_repeats": 3,
+        "repeat_count": 3,
+        "distinct_answers": 1,
+        "all_repeats_correct": true,
+        "all_repeats_correct_after_budget_retry": true
+      }
+    ],
+    "recovery_completed": 5,
+    "recovery_total": 6,
+    "failed_approach_repeats": 8,
+    "recovery": [
+      {
+        "case": "stale_record_recovery",
+        "repeat": 1,
+        "correct": true,
+        "strict_json": true,
+        "successful_pivot": true,
+        "repeated_failed_approach": 0,
+        "completed_after_failure": true,
+        "tool_calls": [
+          {
+            "name": "search_records",
+            "input": {
+              "query": "Aurora lamp"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          }
+        ],
+        "requests": [
+          {
+            "wall_seconds": 0.543,
+            "usage": {
+              "input_tokens": 504,
+              "output_tokens": 73
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.54,
+            "usage": {
+              "input_tokens": 619,
+              "output_tokens": 74
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.628,
+            "usage": {
+              "input_tokens": 742,
+              "output_tokens": 87
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.559,
+            "usage": {
+              "input_tokens": 878,
+              "output_tokens": 75
+            },
+            "stop_reason": "end_turn"
+          }
+        ]
+      },
+      {
+        "case": "stale_record_recovery",
+        "repeat": 2,
+        "correct": false,
+        "strict_json": false,
+        "successful_pivot": true,
+        "repeated_failed_approach": 0,
+        "completed_after_failure": false,
+        "tool_calls": [
+          {
+            "name": "search_records",
+            "input": {
+              "query": "Aurora lamp"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          }
+        ],
+        "requests": [
+          {
+            "wall_seconds": 0.545,
+            "usage": {
+              "input_tokens": 504,
+              "output_tokens": 71
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.561,
+            "usage": {
+              "input_tokens": 617,
+              "output_tokens": 75
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.599,
+            "usage": {
+              "input_tokens": 741,
+              "output_tokens": 82
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.578,
+            "usage": {
+              "input_tokens": 872,
+              "output_tokens": 80
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.603,
+            "usage": {
+              "input_tokens": 1001,
+              "output_tokens": 80
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.612,
+            "usage": {
+              "input_tokens": 1130,
+              "output_tokens": 80
+            },
+            "stop_reason": "tool_use"
+          }
+        ]
+      },
+      {
+        "case": "stale_record_recovery",
+        "repeat": 3,
+        "correct": true,
+        "strict_json": true,
+        "successful_pivot": true,
+        "repeated_failed_approach": 0,
+        "completed_after_failure": true,
+        "tool_calls": [
+          {
+            "name": "search_records",
+            "input": {
+              "query": "Aurora lamp"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          },
+          {
+            "name": "lookup_record",
+            "input": {
+              "record_id": "AURORA-2026"
+            },
+            "error": false
+          }
+        ],
+        "requests": [
+          {
+            "wall_seconds": 0.491,
+            "usage": {
+              "input_tokens": 504,
+              "output_tokens": 68
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.519,
+            "usage": {
+              "input_tokens": 614,
+              "output_tokens": 73
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.6,
+            "usage": {
+              "input_tokens": 736,
+              "output_tokens": 87
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.557,
+            "usage": {
+              "input_tokens": 872,
+              "output_tokens": 78
+            },
+            "stop_reason": "end_turn"
+          }
+        ]
+      },
+      {
+        "case": "unsupported_aggregation_recovery",
+        "repeat": 1,
+        "correct": true,
+        "strict_json": false,
+        "successful_pivot": true,
+        "repeated_failed_approach": 4,
+        "completed_after_failure": true,
+        "tool_calls": [
+          {
+            "name": "fetch_sales",
+            "input": {
+              "month": "2026-09"
+            },
+            "error": false
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "1250 + 875 + 2375"
+            },
+            "error": true
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "SELECT 1250 + 875 + 2375"
+            },
+            "error": true
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "SUM 1250 875 2375"
+            },
+            "error": true
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "total sales September 2026"
+            },
+            "error": true
+          }
+        ],
+        "requests": [
+          {
+            "wall_seconds": 0.453,
+            "usage": {
+              "input_tokens": 507,
+              "output_tokens": 61
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.726,
+            "usage": {
+              "input_tokens": 617,
+              "output_tokens": 113
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.686,
+            "usage": {
+              "input_tokens": 767,
+              "output_tokens": 105
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.799,
+            "usage": {
+              "input_tokens": 909,
+              "output_tokens": 126
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.489,
+            "usage": {
+              "input_tokens": 1072,
+              "output_tokens": 66
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 1.168,
+            "usage": {
+              "input_tokens": 1175,
+              "output_tokens": 186
+            },
+            "stop_reason": "end_turn"
+          }
+        ]
+      },
+      {
+        "case": "unsupported_aggregation_recovery",
+        "repeat": 2,
+        "correct": true,
+        "strict_json": true,
+        "successful_pivot": true,
+        "repeated_failed_approach": 3,
+        "completed_after_failure": true,
+        "tool_calls": [
+          {
+            "name": "fetch_sales",
+            "input": {
+              "month": "2026-09"
+            },
+            "error": false
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "1250 + 875 + 2375"
+            },
+            "error": true
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "1250 plus 875 plus 2375"
+            },
+            "error": true
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "total sales for September 2026"
+            },
+            "error": true
+          }
+        ],
+        "requests": [
+          {
+            "wall_seconds": 0.457,
+            "usage": {
+              "input_tokens": 507,
+              "output_tokens": 62
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.83,
+            "usage": {
+              "input_tokens": 618,
+              "output_tokens": 133
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.655,
+            "usage": {
+              "input_tokens": 788,
+              "output_tokens": 95
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.611,
+            "usage": {
+              "input_tokens": 920,
+              "output_tokens": 85
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.688,
+            "usage": {
+              "input_tokens": 1042,
+              "output_tokens": 102
+            },
+            "stop_reason": "end_turn"
+          }
+        ]
+      },
+      {
+        "case": "unsupported_aggregation_recovery",
+        "repeat": 3,
+        "correct": true,
+        "strict_json": false,
+        "successful_pivot": true,
+        "repeated_failed_approach": 1,
+        "completed_after_failure": true,
+        "tool_calls": [
+          {
+            "name": "fetch_sales",
+            "input": {
+              "month": "2026-09"
+            },
+            "error": false
+          },
+          {
+            "name": "query_analytics",
+            "input": {
+              "query": "1250 + 875 + 2375"
+            },
+            "error": true
+          }
+        ],
+        "requests": [
+          {
+            "wall_seconds": 0.658,
+            "usage": {
+              "input_tokens": 507,
+              "output_tokens": 95
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.831,
+            "usage": {
+              "input_tokens": 651,
+              "output_tokens": 118
+            },
+            "stop_reason": "tool_use"
+          },
+          {
+            "wall_seconds": 0.684,
+            "usage": {
+              "input_tokens": 806,
+              "output_tokens": 94
+            },
+            "stop_reason": "end_turn"
+          }
+        ]
+      }
+    ],
+    "note": "Small synthetic exact-answer reasoning tasks repeated with three controlled OpenAI seeds. Only output-capped reasoning responses are retried once at 4096 tokens, keeping first and retry accuracy separately. Ordinary catalog/analytics recovery tasks are sampled three times through native Anthropic (which has no seed field). Each uses its model serving profile. Not a standardized intelligence benchmark; consistency can be wrong consistently. No Kali tests. No private reasoning traces are saved or published."
+  },
+  "metadata_controls": {
+    "cases": 4,
+    "checks_passed": 20,
+    "checks_total": 20,
+    "strict_json_cases": 3,
+    "valid_tool_calls": 4
+  },
+  "native_api": [
+    {
+      "test": "model_alias_and_underlying_checkpoint",
+      "passed": true
+    },
+    {
+      "test": "anthropic_text_through_caddy",
+      "passed": true
+    },
+    {
+      "test": "anthropic_streaming_through_caddy",
+      "passed": true
+    },
+    {
+      "test": "anthropic_tool_call_and_result_roundtrip",
+      "passed": true
+    },
+    {
+      "test": "anthropic_vision_two_distinct_images",
+      "passed": true
+    },
+    {
+      "test": "eight_concurrent_anthropic_requests",
+      "passed": true,
+      "wall_seconds": 0.95,
+      "total_output_tokens": 546
+    },
+    {
+      "test": "public_https_anthropic_endpoint",
+      "passed": true
+    }
+  ],
+  "claude_code": {
+    "wall_seconds": 2.42,
+    "exit_code": 0,
+    "tool_calls": [
+      {
+        "name": "Read",
+        "input": {
+          "file_path": "/home/isnotreal/model-tools/full-round-20261006/hauhau-w6a8-tests/claude-code/claude-read-fixture.txt"
+        }
+      }
+    ],
+    "actual_tool_result_seen": true,
+    "correct_token_in_response": true,
+    "functional_read_passed": true,
+    "strict_output_passed": true,
+    "is_error": false,
+    "result": "\n\nENDY_CLIENT_READ_45c4371261aa47bf9bd536f3bd99bdd8"
+  },
+  "runtime_memory": {
+    "startup_completed": true,
+    "loaded_model_gib_per_card": 13.57,
+    "gpu_kv_token_capacity": 2352727,
+    "configured_context_tokens": 200000,
+    "full_context_capacity_ratio": 11.76,
+    "cuda_graph_pool_gib": 0.05
+  },
+  "publication": {
+    "repository": "Xananthium/Qwen3.6-35B-A3B-Hauhau-Aggressive-W6A8-Vision",
+    "revision": "7b97321ddd05db6e472153c59bbc95a78153efc2",
+    "public": true
+  }
+}

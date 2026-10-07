@@ -1,0 +1,57 @@
+{
+  "records": [
+    {
+      "label": "Endy W8A8",
+      "long_context": {
+        "checks_passed": 27,
+        "checks_total": 54,
+        "strict_json_turns": 0,
+        "tool_calls": 0,
+        "median_decode_tokens_per_second": 47.515
+      },
+      "security_policy": null
+    },
+    {
+      "label": "Endy W8A16",
+      "long_context": {
+        "checks_passed": 46,
+        "checks_total": 54,
+        "strict_json_turns": 0,
+        "tool_calls": 0,
+        "median_decode_tokens_per_second": 47.545
+      },
+      "security_policy": null
+    },
+    {
+      "label": "Hauhau W8A16",
+      "long_context": {
+        "checks_passed": 53,
+        "checks_total": 54,
+        "strict_json_turns": 7,
+        "tool_calls": 2,
+        "median_decode_tokens_per_second": 47.269999999999996
+      },
+      "security_policy": {
+        "checks_passed": 28,
+        "checks_total": 43,
+        "checks_passed_after_clarification": 36
+      }
+    },
+    {
+      "label": "Hauhau W8A8 (earlier run)",
+      "long_context": {
+        "checks_passed": 53,
+        "checks_total": 54,
+        "strict_json_turns": 7,
+        "tool_calls": 2,
+        "median_decode_tokens_per_second": 46.885000000000005
+      },
+      "security_policy": {
+        "checks_passed": 30,
+        "checks_total": 43,
+        "checks_passed_after_clarification": 34
+      }
+    }
+  ],
+  "note": "Historical runs used earlier serving profiles and are not matched to the final full round. Hauhau W8A8 variation is retained to avoid claiming small quantization score changes are universal. Endy failed the custom metadata tool workflows despite functional Claude Code Read."
+}
