@@ -116,7 +116,7 @@ def main():
            '*A Seldon-inspired chronicle of seven model configurations, stubborn tools, and a statistically modest corner of the galaxy.*','',
            f'Updated: {data["updated_utc"]}. Hardware: {data["hardware"]}. {data["runtime"]}.','',
            'The Commission began with a reasonable proposition: a model that fails twice as quickly has not improved civilization. It has merely increased the rate at which somebody must intervene.','',
-           'Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. Kali workflows were excluded at the owner’s request.','',
+           'Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. The owner wanted Kali workflows, but those tests did not run after repeated assistant-side failures; the owner then asked us to finish the other benchmarks. This report contains no Kali workflow results.','',
            '![Comparison chart](charts/model-comparison.png)','',
            '[Full-size PNG](charts/model-comparison.png) · [Vector SVG](charts/model-comparison.svg) · [CSV](results/comparison.csv) · [Machine-readable results](results/summary.json)','']
     choice=data.get('selection')

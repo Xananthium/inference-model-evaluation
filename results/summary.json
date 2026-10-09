@@ -5595,7 +5595,9 @@
       "open-ended offensive lab harness"
     ],
     "publications": "Public Xananthium HF checkpoints and results; local Git repository prepared for GitHub login tomorrow",
-    "updated_utc": "2026-10-07T02:55:00Z"
+    "updated_utc": "2026-10-07T02:55:00Z",
+    "scope_history": "The owner originally wanted Kali workflows. After repeated assistant-side failures, the owner asked us to finish the other benchmarks instead. No Kali workflows ran. The exclusion list records the completed evaluation scope, not the owner's original research preference.",
+    "clarified_utc": "2026-10-09T12:10:27.712492+00:00"
   },
   "deployment_verification": {
     "checked_utc": "2026-10-09T12:01:15.863462+00:00",

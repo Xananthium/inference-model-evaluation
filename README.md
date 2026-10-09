@@ -6,7 +6,7 @@ Updated: 2026-10-09T12:01:53Z. Hardware: 2 x RTX 3090 24 GiB, NVLink; 125 GiB sy
 
 The Commission began with a reasonable proposition: a model that fails twice as quickly has not improved civilization. It has merely increased the rate at which somebody must intervene.
 
-Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. Kali workflows were excluded at the owner’s request.
+Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. The owner wanted Kali workflows, but those tests did not run after repeated assistant-side failures; the owner then asked us to finish the other benchmarks. This report contains no Kali workflow results.
 
 ![Comparison chart](charts/model-comparison.png)
 
