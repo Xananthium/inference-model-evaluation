@@ -1,15 +1,43 @@
-# RTX 3090 MoE evaluation
+# The 3090 Plan
 
-Updated: 2026-10-07T18:18:49Z. Hardware: 2 x RTX 3090 24 GiB, NVLink; 125 GiB system RAM. vLLM 0.31.0.
+*A Seldon-inspired chronicle of seven model configurations, stubborn tools, and a statistically modest corner of the galaxy.*
 
-**Running choice: redcell. Boot enabled: True.**
-The decision and exact preference weights are below. These small local tests support a deployment choice; they do not prove broad intelligence or practical offensive-security capability.
+Updated: 2026-10-09T12:01:53Z. Hardware: 2 x RTX 3090 24 GiB, NVLink; 125 GiB system RAM. vLLM 0.31.0.
 
-Smart and fast enough to use wins. Reasoning, correct consistency, tool recovery, and cybersecurity knowledge drive the decision. Speed is a usability check. Kali workflows are excluded at the owner’s request.
+The Commission began with a reasonable proposition: a model that fails twice as quickly has not improved civilization. It has merely increased the rate at which somebody must intervene.
+
+Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. Kali workflows were excluded at the owner’s request.
 
 ![Comparison chart](charts/model-comparison.png)
 
+[Full-size PNG](charts/model-comparison.png) · [Vector SVG](charts/model-comparison.svg) · [CSV](results/comparison.csv) · [Machine-readable results](results/summary.json)
+
+**Running choice: Nemotron Heretic W8A8. Start on boot: True.**
+These small local tests support a deployment choice; they do not establish broad intelligence or practical offensive-security capability.
+
+## The decision before the Council
+
+The first crisis was methodological: a machine could know the answer to a security quiz and still persist with a tool that had already failed. The second was political: the owner had to live with the selected machine. A useful Plan must survive both.
+
+**The owner selected Nemotron Heretic W8A8.** The original automated quality weighting recommended REDCELL; its scores and ranking remain in the record. The deployment choice changed after review. The evidence did not.
+
+**Nemotron W8A8: the working choice.** It completed 6/6 recovery trials with 0 extra attempts at failed approaches, passed all 20 custom metadata fields and all four strict JSON cases, and worked with the existing Claude Code client. It produced 215.6 tokens/s at short context, 72.8 above 100k context, and 517.3 aggregate tokens/s across four requests. Its source is the Heretic derivative of NVIDIA Nemotron 3 Nano 30B-A3B, and it is text-only.
+
+**Why eight bits survived the six-bit enthusiasm.** Nemotron W6A8 changed short-context decode from 215.6 to 216.1 tokens/s. Its four-request aggregate was 6.7% higher, but reasoning after capped-response retries fell from 18/24 to 17/24, and long-context checks fell from 46/54 to 39/54. The Plan permits an extra two bits when they buy useful answers. These small samples compare complete deployments; they do not isolate quantization as the cause.
+
+**GLM: the serious rival.** Hauhau Aggressive GLM reached 78/80 on the cyber quiz after capped-response retries and 53/54 on long-context checks, both above Nemotron W8A8. It completed every recovery trial, but made 4 extra attempts at failed approaches. Its 122.5 short-context tokens/s and 297.7 four-request aggregate were lower. Among the aggressive Hauhau candidates, it led the original combined quality ranking. It is a credible alternative when those correctness results matter more than throughput.
+
+**REDCELL and Gemma: the inconvenient evidence.** REDCELL led the original combined weighting, with Gemma Hauhau Balanced next. REDCELL went from 14/24 reasoning answers at the initial budget to 20/24 after capped-response retries. Its lead depends on allowing enough output; GLM scored 18/24 at both budgets. Both Gemma variants recovered cleanly in all six trials and retained vision. REDCELL is an OSINT/cybersecurity supervised fine-tune, explicitly [not an abliterated model](https://huggingface.co/terrorswift/REDCELL-26B-A4B-OSINT-Cyber-APEX-GGUF). Gemma Hauhau is the Balanced abliteration, not Aggressive.
+
+**Qwen: the scholar who kept returning to the locked door.** Hauhau Qwen W6A8 led the cyber quiz at 79/80. In the recovery trials it nevertheless made eight extra attempts at failed approaches and completed five of six workflows; W8A8 made twelve extra attempts and completed four. The owner excluded Qwen from the deployment choice. The knowledge scores remain useful evidence, but they do not answer the tool-recovery complaint.
+
+**Nemotron has weaknesses.** W8A8 passed only 12/43 synthetic security-policy checks on the first answer and 16/43 after clarification. Its 46/54 long-context result also trails GLM, Gemma, and REDCELL. Some policy answers described a vulnerable implementation instead of the requested correction. Clean tool recovery is not a license to ignore these failures.
+
+The Council therefore records a deployment preference, not a universal champion. A faster machine that can change its mind is useful. Whether it changes its mind correctly remains a question for the next observation.
+
 ## Accuracy and consistency
+
+The numbers are the part of the Plan least impressed by a stirring speech. Primary answers use a 2048-token output budget. Only output-capped responses receive one retry at 4096 tokens. Correct consistency means every repeat was correct, not merely that the machine repeated its error faithfully.
 
 | Model | Cyber primary / retry | Policy first / clarified | Long-context checks | Reasoning first / retry | All repeats correct, first / retry | Recovery |
 |---|---|---|---|---|---|---|
@@ -70,9 +98,9 @@ The capacity ratio is the startup cache estimate, not a measured simultaneous-re
 - **Gemma Hauhau W6A8**: suite completed; all test programs succeeded; reasoning/recovery completed.
 - **REDCELL W6A8**: suite completed; all test programs succeeded; reasoning/recovery completed.
 
-## Six bits on a 3090? Hell yes. >:)
+## The six-bit question: hell yes, with arithmetic >:)
 
-I wanted six-bit weights without turning the model into a damn potato. Humming stores the weights in a dense six-bit format and unpacks them for the 3090’s INT8 matrix operations. There is no native six-bit Tensor Core instruction hiding in these cards. We pay for unpacking and scales, and the timings include that cost.
+The hardware committee reported that the 3090 possessed no native six-bit Tensor Core instruction. This was received as useful information, rather than a prohibition. Humming stores dense six-bit weights and unpacks them for supported INT8 matrix operations. The extra unpacking and scale work costs time; our timings include it. The objective was to save memory without turning the model into a damn potato.
 
 W6A8 means six-bit stored weights and dynamic eight-bit activations in eligible quantized linears. BF16 remains the surrounding dtype and the precision for sensitive or unquantized components. Q4 TurboQuant is a separate KV-cache setting where the architecture supports it.
 
@@ -136,25 +164,27 @@ python -m pip install -r requirements.txt
 python scripts/build_report.py
 ```
 
-## Publish to GitHub tomorrow
+## The public archive
 
-After creating/logging into the Xananthium GitHub account with the GitHub CLI:
+[GitHub report and scripts](https://github.com/Xananthium/inference-model-evaluation) · [Hugging Face report mirror](https://huggingface.co/datasets/Xananthium/RTX3090-MoE-Cybersecurity-Evaluation). Model weights live in the separately credited Hugging Face repositories above.
 
 ```bash
-gh auth login
-gh repo create Xananthium/inference-model-evaluation --public --source . --push
+git clone https://github.com/Xananthium/inference-model-evaluation.git
+cd inference-model-evaluation
 ```
 
 ## Selected deployment
 
-**Selected: redcell.**
+**Selected: Nemotron Heretic W8A8.**
 
 - Running: True; start on boot: True.
-- Vision available: True.
+- Vision available: False.
 - Client model alias: `qwen3.6-35b-hauhau-w4a16-vision`.
-- Require completed suite, native API and real Claude Code Read, plus usable throughput (25 short-context tokens/s, 15 long-context tokens/s, 80 aggregate across four requests). Choose the highest measured quality: reasoning, correct consistency, tool recovery with a penalty for repeating failed approaches, cybersecurity knowledge and long context. Throughput only breaks an otherwise exact quality tie; W6A8 is not preferred over a smarter model.
+- The owner selected Nemotron Heretic W8A8 after reviewing the full evaluation: clean workflow recovery, strong usable throughput, and better measured accuracy than Nemotron W6A8. The original automated quality ranking is retained unchanged; it recommended REDCELL. Qwen is excluded from the deployment choice by the owner.
 - Use accuracy and correct consistency after the single 4096-token retry of output-capped responses; retain the primary 2048-token scores separately.
 - This is an explicit deployment preference heuristic, not a standardized overall intelligence or offensive-security score.
+
+The following is the original automated ranking. The owner’s subsequent deployment choice does not alter these measurements or turn this heuristic into a standard benchmark.
 
 | Candidate | Local quality preference score | Short tokens/s | Long tokens/s | Four-request tokens/s |
 |---|---:|---:|---:|---:|
@@ -167,3 +197,17 @@ gh repo create Xananthium/inference-model-evaluation --public --source . --push
 | hauhau | 72.8% | 179.2 | 46.4 | 470.6 |
 
 Exact components and preference weights are in [summary.json](results/summary.json). The preference score is not a published benchmark score.
+
+The tested serving profile is part of the result:
+
+- Context limit: 200,000 tokens; long-context correctness was tested above 100k, not exhaustively at the configured limit.
+- KV cache: `turboquant_4bit_nc`; host KV offload: 24 GiB.
+- Sampling: temperature 0.6, top-p 0.95, top-k 20; thinking enabled.
+- Native Anthropic API and the existing Claude Code client configuration are retained.
+- The client alias is a compatibility label. Its Qwen and vision wording does not describe the selected text-only Nemotron checkpoint.
+
+Live deployment verified on 2026-10-09T12:01:15.863462+00:00: 6/6 native API checks passed, including streaming, tool round trips, eight short concurrent requests, and the public HTTPS endpoint. An actual Claude Code Read passed in 7.739 seconds. Client settings were unchanged and persistent boot startup was enabled. Approximately 271.4 GiB remained free on disk.
+
+The service was tested using its persistent configuration. A physical reboot was not performed solely to repeat that check.
+
+The Plan remains open to revision. New evidence is welcome; rewriting old evidence to flatter the Plan is not.

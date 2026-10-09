@@ -1,0 +1,44 @@
+{
+  "checked_utc": "2026-10-09T12:01:15.863462+00:00",
+  "selected": "nemotron",
+  "model": "Nemotron Heretic W8A8",
+  "client_model_alias": "qwen3.6-35b-hauhau-w4a16-vision",
+  "context_limit": 200000,
+  "vision": false,
+  "native_api": [
+    {
+      "test": "model_alias_and_underlying_checkpoint",
+      "passed": true
+    },
+    {
+      "test": "anthropic_text_through_caddy",
+      "passed": true
+    },
+    {
+      "test": "anthropic_streaming_through_caddy",
+      "passed": true
+    },
+    {
+      "test": "anthropic_tool_call_and_result_roundtrip",
+      "passed": true
+    },
+    {
+      "test": "eight_concurrent_anthropic_requests",
+      "passed": true,
+      "wall_seconds": 0.9,
+      "total_output_tokens": 450
+    },
+    {
+      "test": "public_https_anthropic_endpoint",
+      "passed": true
+    }
+  ],
+  "claude_code_read_seconds": 7.739,
+  "claude_code_read_passed": true,
+  "claude_code_strict_output_passed": true,
+  "client_settings_unchanged": true,
+  "boot_enabled": true,
+  "persistent_configuration_verified": true,
+  "trial_override_absent": true,
+  "disk_free_gib": 271.4
+}

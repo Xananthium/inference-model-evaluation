@@ -1,5 +1,5 @@
 {
-  "updated_utc": "2026-10-07T18:18:49Z",
+  "updated_utc": "2026-10-09T12:01:53Z",
   "hardware": "2 x RTX 3090 24 GiB, NVLink; 125 GiB system RAM",
   "runtime": "vLLM 0.31.0",
   "records": [
@@ -5400,9 +5400,9 @@
     }
   ],
   "selection": {
-    "selected": "redcell",
-    "selected_model_path": "/home/isnotreal/models/redcell-w6a8-native",
-    "method": "Require completed suite, native API and real Claude Code Read, plus usable throughput (25 short-context tokens/s, 15 long-context tokens/s, 80 aggregate across four requests). Choose the highest measured quality: reasoning, correct consistency, tool recovery with a penalty for repeating failed approaches, cybersecurity knowledge and long context. Throughput only breaks an otherwise exact quality tie; W6A8 is not preferred over a smarter model.",
+    "selected": "nemotron",
+    "selected_model_path": "/home/isnotreal/models/nemotron-w8a8-native",
+    "method": "The owner selected Nemotron Heretic W8A8 after reviewing the full evaluation: clean workflow recovery, strong usable throughput, and better measured accuracy than Nemotron W6A8. The original automated quality ranking is retained unchanged; it recommended REDCELL. Qwen is excluded from the deployment choice by the owner.",
     "quality_weights": {
       "cyber_knowledge": 0.15,
       "security_policy": 0.05,
@@ -5576,12 +5576,17 @@
     ],
     "caveat": "This is an explicit deployment preference heuristic, not a standardized overall intelligence or offensive-security score.",
     "client_model_alias": "qwen3.6-35b-hauhau-w4a16-vision",
-    "vision": true,
-    "updated": 1791396874.2574475,
+    "vision": false,
+    "updated": 1791547275.8634932,
     "inference_running": true,
     "boot_enabled": true,
     "persistent_configuration": "/etc/systemd/system/qwen-vllm.service.d/zzzzzzzz-evaluation-winner.conf",
-    "final_client_test_passed": true
+    "final_client_test_passed": true,
+    "selected_label": "Nemotron Heretic W8A8",
+    "selection_basis": "explicit_user_choice",
+    "user_selected_utc": "2026-10-09T12:01:15.863462+00:00",
+    "automated_recommendation": "redcell",
+    "automated_selection_method": "Require completed suite, native API and real Claude Code Read, plus usable throughput (25 short-context tokens/s, 15 long-context tokens/s, 80 aggregate across four requests). Choose the highest measured quality: reasoning, correct consistency, tool recovery with a penalty for repeating failed approaches, cybersecurity knowledge and long context. Throughput only breaks an otherwise exact quality tie; W6A8 is not preferred over a smarter model."
   },
   "scope": {
     "requested": "Complete model comparison with cyber knowledge, original policy fixtures, reasoning, consistency, non-security workflow recovery, native API and real Claude Code, vision where available, over-100k context, throughput and concurrency",
@@ -5591,6 +5596,50 @@
     ],
     "publications": "Public Xananthium HF checkpoints and results; local Git repository prepared for GitHub login tomorrow",
     "updated_utc": "2026-10-07T02:55:00Z"
+  },
+  "deployment_verification": {
+    "checked_utc": "2026-10-09T12:01:15.863462+00:00",
+    "selected": "nemotron",
+    "model": "Nemotron Heretic W8A8",
+    "client_model_alias": "qwen3.6-35b-hauhau-w4a16-vision",
+    "context_limit": 200000,
+    "vision": false,
+    "native_api": [
+      {
+        "test": "model_alias_and_underlying_checkpoint",
+        "passed": true
+      },
+      {
+        "test": "anthropic_text_through_caddy",
+        "passed": true
+      },
+      {
+        "test": "anthropic_streaming_through_caddy",
+        "passed": true
+      },
+      {
+        "test": "anthropic_tool_call_and_result_roundtrip",
+        "passed": true
+      },
+      {
+        "test": "eight_concurrent_anthropic_requests",
+        "passed": true,
+        "wall_seconds": 0.9,
+        "total_output_tokens": 450
+      },
+      {
+        "test": "public_https_anthropic_endpoint",
+        "passed": true
+      }
+    ],
+    "claude_code_read_seconds": 7.739,
+    "claude_code_read_passed": true,
+    "claude_code_strict_output_passed": true,
+    "client_settings_unchanged": true,
+    "boot_enabled": true,
+    "persistent_configuration_verified": true,
+    "trial_override_absent": true,
+    "disk_free_gib": 271.4
   },
   "precision_comparison": {
     "hardware": "2 x RTX 3090 24 GiB with NVLink",
