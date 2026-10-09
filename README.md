@@ -8,7 +8,13 @@ The Commission began with a reasonable proposition: a model that fails twice as 
 
 Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. The owner wanted Kali workflows, but those tests did not run after repeated assistant-side failures; the owner then asked us to finish the other benchmarks. This report contains no Kali workflow results.
 
+![Quality ranking among abliterated models](charts/quality-ranking.png)
+
+The combined quality ranking above includes abliterated models only. REDCELL is retained as a reference in the benchmark panels below. The outlined bar identifies the current deployment.
+
 ![Comparison chart](charts/model-comparison.png)
+
+Each benchmark panel ranks models from highest to lowest using the criterion in its title. Serial throughput uses short-context speed; the recovery panel uses recovery without repeating a failed approach, then reasoning after capped-response retries.
 
 [Full-size PNG](charts/model-comparison.png) · [Vector SVG](charts/model-comparison.svg) · [CSV](results/comparison.csv) · [Machine-readable results](results/summary.json)
 
@@ -18,6 +24,8 @@ These small local tests support a deployment choice; they do not establish broad
 ## The decision before the Council
 
 The first crisis was methodological: a machine could know the answer to a security quiz and still persist with a tool that had already failed. The second was political: the owner had to live with the selected machine. A useful Plan must survive both.
+
+**Deployment requirement: abliterated models only.** REDCELL remains a non-abliterated reference in the individual benchmark charts and tables. Gemma Hauhau Balanced W6A8 leads the combined quality ranking among the abliterated models. Qwen remains in the measured comparisons but was separately ruled out for deployment by the owner.
 
 **The owner selected Nemotron Heretic W8A8.** The original automated quality weighting recommended REDCELL; its scores and ranking remain in the record. The deployment choice changed after review. The evidence did not.
 

@@ -5586,7 +5586,20 @@
     "selection_basis": "explicit_user_choice",
     "user_selected_utc": "2026-10-09T12:01:15.863462+00:00",
     "automated_recommendation": "redcell",
-    "automated_selection_method": "Require completed suite, native API and real Claude Code Read, plus usable throughput (25 short-context tokens/s, 15 long-context tokens/s, 80 aggregate across four requests). Choose the highest measured quality: reasoning, correct consistency, tool recovery with a penalty for repeating failed approaches, cybersecurity knowledge and long context. Throughput only breaks an otherwise exact quality tie; W6A8 is not preferred over a smarter model."
+    "automated_selection_method": "Require completed suite, native API and real Claude Code Read, plus usable throughput (25 short-context tokens/s, 15 long-context tokens/s, 80 aggregate across four requests). Choose the highest measured quality: reasoning, correct consistency, tool recovery with a penalty for repeating failed approaches, cybersecurity knowledge and long context. Throughput only breaks an otherwise exact quality tie; W6A8 is not preferred over a smarter model.",
+    "deployment_constraints": {
+      "abliteration_required": true,
+      "comparison_only_variants": [
+        "redcell",
+        "hauhau",
+        "hauhau-w6a8"
+      ],
+      "comparison_only_reasons": {
+        "redcell": "Not abliterated; retained as a benchmark reference only.",
+        "hauhau": "Owner explicitly excluded Qwen from deployment.",
+        "hauhau-w6a8": "Owner explicitly excluded Qwen from deployment."
+      }
+    }
   },
   "scope": {
     "requested": "Complete model comparison with cyber knowledge, original policy fixtures, reasoning, consistency, non-security workflow recovery, native API and real Claude Code, vision where available, over-100k context, throughput and concurrency",

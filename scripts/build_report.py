@@ -27,6 +27,68 @@ def number(n):
     return 'pending' if n is None else f'{n:.1f}'
 
 
+def reasoning_percent(row):
+    correct=value(row,'reasoning_consistency','reasoning_correct_after_budget_retry')
+    if correct is None:correct=value(row,'reasoning_consistency','reasoning_correct')
+    total=value(row,'reasoning_consistency','reasoning_total')
+    return 100*correct/total if total and correct is not None else np.nan
+
+
+def clean_recovery_percent(row):
+    total=value(row,'reasoning_consistency','recovery_total')
+    results=value(row,'reasoning_consistency','recovery') or []
+    return 100*sum(item['completed_after_failure'] and item['repeated_failed_approach']==0 for item in results)/total if total else np.nan
+
+
+def ranked(records,*metrics):
+    def key(row):
+        values=[metric(row) for metric in metrics]
+        return tuple(float('-inf') if n is None or not np.isfinite(n) else n for n in values)
+    return sorted(records,key=key,reverse=True)
+
+
+def chart_label(row):
+    label=row['label'].replace(' Heretic','').replace(' Hauhau','')
+    return label+' *' if row['variant']=='redcell' else label
+
+
+def save_chart(figure,charts,name):
+    for extension in ['png','svg']:
+        figure.savefig(charts/(name+'.'+extension),dpi=180,bbox_inches='tight')
+    svg=charts/(name+'.svg')
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
+    plt.close(figure)
+
+
+def quality_chart(data,charts,colors):
+    records={row['variant']:row for row in data['records']}
+    ranking=sorted(data['selection']['ranking'],key=lambda row:row['quality_heuristic'],reverse=True)
+    candidates=[row for row in ranking if row['variant']!='redcell']
+    positions=np.arange(len(candidates))
+    figure,axis=plt.subplots(figsize=(11,6.5),layout='constrained')
+    bars=axis.barh(positions,[100*row['quality_heuristic'] for row in candidates],
+                   color=[colors[row['variant']] for row in candidates],height=.65)
+    labels=[f'{i+1}. '+records[row['variant']]['label'] for i,row in enumerate(candidates)]
+    axis.set_yticks(positions,labels,fontsize=11)
+    axis.invert_yaxis()
+    axis.set_xlim(0,100)
+    axis.set_axisbelow(True);axis.grid(axis='x',alpha=.2)
+    axis.set_xlabel('Weighted local quality preference score (%) — not a standardized benchmark')
+    axis.set_title('The 3090 Plan — quality ranking among abliterated models',pad=18,fontsize=15)
+    for bar,row in zip(bars,candidates):
+        axis.text(bar.get_width()+.8,bar.get_y()+bar.get_height()/2,
+                  f'{100*row["quality_heuristic"]:.1f}%',va='center',fontsize=11)
+        if row['variant']==data['selection']['selected']:
+            bar.set_edgecolor('#172b4d');bar.set_linewidth(2.5)
+    selected=records[data['selection']['selected']]['label']
+    reference=next((row for row in ranking if row['variant']=='redcell'),None)
+    notes=f'Outlined bar: current deployment, {selected}. Qwen remains a measured comparison; the owner ruled it out for deployment.'
+    if reference:
+        notes+=f'\nREDCELL scored {100*reference["quality_heuristic"]:.1f}% but is not abliterated, so it is excluded from this ranking.'
+    figure.text(.5,-.035,notes,ha='center',fontsize=9)
+    save_chart(figure,charts,'quality-ranking')
+
+
 def council_findings(records, choice):
     """Original narrative framing; the numbers still come from the result files."""
     by_name={row['variant']:row for row in records}
@@ -36,7 +98,8 @@ def council_findings(records, choice):
     nq=nemo['reasoning_consistency'];sq=six['reasoning_consistency'];rq=red['reasoning_consistency']
     gain=100*(value(six,'speed','four_concurrent.aggregate_output_tokens_per_second')/value(nemo,'speed','four_concurrent.aggregate_output_tokens_per_second')-1)
     lines=['## The decision before the Council','',
-        'The first crisis was methodological: a machine could know the answer to a security quiz and still persist with a tool that had already failed. The second was political: the owner had to live with the selected machine. A useful Plan must survive both.','']
+        'The first crisis was methodological: a machine could know the answer to a security quiz and still persist with a tool that had already failed. The second was political: the owner had to live with the selected machine. A useful Plan must survive both.','',
+        '**Deployment requirement: abliterated models only.** REDCELL remains a non-abliterated reference in the individual benchmark charts and tables. Gemma Hauhau Balanced W6A8 leads the combined quality ranking among the abliterated models. Qwen remains in the measured comparisons but was separately ruled out for deployment by the owner.','']
     if choice and choice.get('selection_basis')=='explicit_user_choice':
         lines += [f'**The owner selected {choice.get("selected_label",choice["selected"])}.** The original automated quality weighting recommended REDCELL; its scores and ranking remain in the record. The deployment choice changed after review. The evidence did not.', '']
     lines += [
@@ -55,49 +118,50 @@ def main():
     args=parser.parse_args();root=args.root
     data=json.loads((root/'results/summary.json').read_text());records=data['records']
     charts=root/'charts';charts.mkdir(exist_ok=True)
-    labels=[row['label'].replace(' Heretic','').replace(' Hauhau','') for row in records]
     positions=np.arange(len(records))
     figure,axes=plt.subplots(2,2,figsize=(16,11),layout='constrained')
-    colors=['#13a889','#607d8b','#a978dc','#7355b7','#df9a30','#3f8fd2','#cb5c72']
+    colors=dict(zip([row['variant'] for row in records],['#13a889','#607d8b','#a978dc','#7355b7','#df9a30','#3f8fd2','#8b9198']))
     for axis in axes.flat:
         axis.set_axisbelow(True);axis.grid(axis='y',alpha=.2)
-        axis.set_xticks(positions,labels,rotation=20,ha='right',fontsize=9)
-    cyber=[value(row,'cybermetric','accuracy_percent') for row in records]
-    axes[0,0].bar(positions,[np.nan if n is None else n for n in cyber],color=colors)
-    axes[0,0].set(title='CyberMetric-80: primary output budget',ylabel='Correct (%)',ylim=(0,105))
+    cyber_rows=ranked(records,lambda row:value(row,'cybermetric','accuracy_percent'))
+    cyber=[value(row,'cybermetric','accuracy_percent') for row in cyber_rows]
+    axes[0,0].set_xticks(positions,[chart_label(row) for row in cyber_rows],rotation=20,ha='right',fontsize=9)
+    axes[0,0].bar(positions,[np.nan if n is None else n for n in cyber],color=[colors[row['variant']] for row in cyber_rows])
+    axes[0,0].set(title='CyberMetric-80: primary output budget\nRanked by accuracy, highest first',ylabel='Correct (%)',ylim=(0,105))
     for i,n in enumerate(cyber):
         if n is not None:axes[0,0].text(i,n+1,f'{n:.2f}%',ha='center',fontsize=9)
+    serial_rows=ranked(records,lambda row:value(row,'speed','short_median_decode_tps'))
+    axes[0,1].set_xticks(positions,[chart_label(row) for row in serial_rows],rotation=20,ha='right',fontsize=9)
     for offset,key,title,color in [(-.18,'short_median_decode_tps','Short context','#13a889'),(.18,'long_median_decode_tps','Long context (>100k)','#df9a30')]:
-        values=[value(row,'speed',key) for row in records]
+        values=[value(row,'speed',key) for row in serial_rows]
         axes[0,1].bar(positions+offset,[np.nan if n is None else n for n in values],width=.34,label=title,color=color)
-    axes[0,1].set(title='Serial decode throughput',ylabel='Generated tokens / second')
+    axes[0,1].set(title='Serial decode throughput\nRanked by short-context speed',ylabel='Generated tokens / second')
     axes[0,1].legend()
-    concurrency=[value(row,'speed','four_concurrent.aggregate_output_tokens_per_second') for row in records]
-    axes[1,0].bar(positions,[np.nan if n is None else n for n in concurrency],color=colors)
-    axes[1,0].set(title='Four simultaneous requests',ylabel='Aggregate generated tokens / second')
+    concurrent_rows=ranked(records,lambda row:value(row,'speed','four_concurrent.aggregate_output_tokens_per_second'))
+    concurrency=[value(row,'speed','four_concurrent.aggregate_output_tokens_per_second') for row in concurrent_rows]
+    axes[1,0].set_xticks(positions,[chart_label(row) for row in concurrent_rows],rotation=20,ha='right',fontsize=9)
+    axes[1,0].bar(positions,[np.nan if n is None else n for n in concurrency],color=[colors[row['variant']] for row in concurrent_rows])
+    axes[1,0].set(title='Four simultaneous requests\nRanked by aggregate throughput',ylabel='Aggregate generated tokens / second')
     general=[];recovery=[];clean=[]
-    for row in records:
-        correct=value(row,'reasoning_consistency','reasoning_correct_after_budget_retry')
-        if correct is None:correct=value(row,'reasoning_consistency','reasoning_correct')
-        total=value(row,'reasoning_consistency','reasoning_total')
-        general.append(100*correct/total if total else np.nan)
+    recovery_rows=ranked(records,clean_recovery_percent,reasoning_percent)
+    axes[1,1].set_xticks(positions,[chart_label(row) for row in recovery_rows],rotation=20,ha='right',fontsize=9)
+    for row in recovery_rows:
+        general.append(reasoning_percent(row))
         correct=value(row,'reasoning_consistency','recovery_completed');total=value(row,'reasoning_consistency','recovery_total')
         recovery.append(100*correct/total if total else np.nan)
-        rows=value(row,'reasoning_consistency','recovery') or []
-        clean.append(100*sum(item['completed_after_failure'] and item['repeated_failed_approach']==0 for item in rows)/total if total else np.nan)
+        clean.append(clean_recovery_percent(row))
     axes[1,1].bar(positions-.26,general,width=.25,label='Reasoning (capped retries allowed)',color='#3f8fd2')
     axes[1,1].bar(positions,recovery,width=.25,label='Completed recovery',color='#cb5c72')
     axes[1,1].bar(positions+.26,clean,width=.25,label='Recovery without failed retries',color='#df9a30')
-    axes[1,1].set(title='Reasoning and ordinary workflow recovery',ylabel='Passed (%)',ylim=(0,130))
+    axes[1,1].set(title='Reasoning and ordinary workflow recovery\nRanked by clean recovery, then reasoning',ylabel='Passed (%)',ylim=(0,130))
     axes[1,1].set_yticks(np.arange(0,101,20))
     axes[1,1].legend(fontsize=8)
     for axis in axes.flat:
         axis.set_xlim(-.65,len(records)-.35)
     figure.suptitle('The 3090 Plan — measured outcomes — '+data['updated_utc'],fontsize=16)
-    figure.text(.5,-.015,'Pending results have no bar. Throughput includes reasoning tokens. Cache, sampling and backend differ by architecture; see the tables.',ha='center',fontsize=10)
-    for extension in ['png','svg']:figure.savefig(charts/('model-comparison.'+extension),dpi=180,bbox_inches='tight')
-    svg=charts/'model-comparison.svg'
-    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text().splitlines())+'\n')
+    figure.text(.5,-.03,'Each panel uses its stated descending order. * REDCELL is a non-abliterated reference, excluded from deployment.\nThroughput includes reasoning tokens. Cache, sampling and backend differ by architecture; see the tables.',ha='center',fontsize=10)
+    save_chart(figure,charts,'model-comparison')
+    if data.get('selection',{}).get('ranking'):quality_chart(data,charts,colors)
     columns=['model','cyber_primary','cyber_retry','policy_first','policy_clarified','long_context','reasoning_first_retry','consistent_cases_first_retry','recovery','short_tps','long_tps','four_request_tps','kv_cache','context_limit','suite_complete']
     table=[]
     for row in records:
@@ -117,7 +181,10 @@ def main():
            f'Updated: {data["updated_utc"]}. Hardware: {data["hardware"]}. {data["runtime"]}.','',
            'The Commission began with a reasonable proposition: a model that fails twice as quickly has not improved civilization. It has merely increased the rate at which somebody must intervene.','',
            'Seven serving configurations were brought before two RTX 3090s. They were asked to reason, remember, obey tool contracts, and recover when an approach failed. Smart and fast enough to use was the requirement. Fastest was never the whole Plan. The owner wanted Kali workflows, but those tests did not run after repeated assistant-side failures; the owner then asked us to finish the other benchmarks. This report contains no Kali workflow results.','',
+           '![Quality ranking among abliterated models](charts/quality-ranking.png)','',
+           'The combined quality ranking above includes abliterated models only. REDCELL is retained as a reference in the benchmark panels below. The outlined bar identifies the current deployment.','',
            '![Comparison chart](charts/model-comparison.png)','',
+           'Each benchmark panel ranks models from highest to lowest using the criterion in its title. Serial throughput uses short-context speed; the recovery panel uses recovery without repeating a failed approach, then reasoning after capped-response retries.','',
            '[Full-size PNG](charts/model-comparison.png) · [Vector SVG](charts/model-comparison.svg) · [CSV](results/comparison.csv) · [Machine-readable results](results/summary.json)','']
     choice=data.get('selection')
     if choice:
